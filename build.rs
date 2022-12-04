@@ -16,7 +16,7 @@
 
 fn main() -> std::io::Result<()> {
     tonic_build::configure()
-        .protoc_arg("--experimental_allow_proto3_optional")
+        // .protoc_arg("--experimental_allow_proto3_optional")
         .build_server(false)
         .compile(
             &[
