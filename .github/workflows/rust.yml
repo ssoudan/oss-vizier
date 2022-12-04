@@ -31,10 +31,12 @@ jobs:
           miniforge-version: latest
       - uses: actions/checkout@v3
       - name: Create env
+        shell: bash -el {0}
         run: conda env create -f environment.yml
       - name: Build
         run: cargo build --verbose
       - name: Run tests
+        shell: bash -el {0}
         run: |
           conda activate oss-vizier
           python run_server.py &
