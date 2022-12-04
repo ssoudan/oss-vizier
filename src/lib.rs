@@ -44,7 +44,6 @@ pub use prost_types;
 use tokio::time::sleep;
 use tonic::codegen::http::uri::InvalidUri;
 use tonic::codegen::{Body, StdError};
-use tonic::transport::Channel;
 
 use crate::google::longrunning::{operation, GetOperationRequest, Operation};
 use crate::model::{study, trial};
@@ -116,13 +115,6 @@ pub enum Error {
     Status(#[from] tonic::Status),
 }
 
-impl VizierClient<Channel> {
-    /// Creates a new [VizierClient].
-    pub fn new_with_service(owner: String, service: VizierServiceClient<Channel>) -> Self {
-        Self { owner, service }
-    }
-}
-
 impl<T> VizierClient<T>
 where
     T: tonic::client::GrpcService<tonic::body::BoxBody>,
@@ -130,6 +122,11 @@ where
     T::ResponseBody: Body<Data = Bytes> + Send + 'static,
     <T::ResponseBody as Body>::Error: Into<StdError> + Send,
 {
+    /// Creates a new Vizier client.
+    pub fn new(owner: String, service: VizierServiceClient<T>) -> Self {
+        Self { owner, service }
+    }
+
     /// Creates a new [crate::vizier::CreateStudyRequest] builder.
     pub fn mk_study_request_builder(&self) -> study::create::RequestBuilder {
         study::create::RequestBuilder::new(self.owner.clone())
@@ -752,7 +749,7 @@ mod studies {
         let study_spec =
             StudySpecBuilder::new("ALGORITHM_UNSPECIFIED".to_string(), ObservationNoise::Low)
                 .with_metric_specs(vec![MetricSpec {
-                    metric_id: "m1".to_string(), // FUTURE(ssoudan) unique and w/o whitespaces
+                    metric_id: "m1".to_string(),
                     goal: GoalType::Maximize as i32,
                     safety_config: None,
                 }])
@@ -863,14 +860,14 @@ mod common {
 
         let owner = "owner".to_string();
 
-        VizierClient::new_with_service(owner, service)
+        VizierClient::new(owner, service)
     }
 
     pub(crate) async fn create_dummy_study(client: &mut VizierClient<Channel>, study_name: String) {
         let study_spec =
             StudySpecBuilder::new("ALGORITHM_UNSPECIFIED".to_string(), ObservationNoise::Low)
                 .with_metric_specs(vec![MetricSpec {
-                    metric_id: "m1".to_string(), // FUTURE(ssoudan) unique and w/o whitespaces
+                    metric_id: "m1".to_string(),
                     goal: GoalType::Maximize as i32,
                     safety_config: None,
                 }])

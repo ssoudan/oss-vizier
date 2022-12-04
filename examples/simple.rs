@@ -25,7 +25,7 @@ async fn main() {
 
     let owner = "owner".to_string();
 
-    let mut client = VizierClient::new_with_service(owner, service);
+    let mut client = VizierClient::new(owner, service);
 
     let request = client
         .mk_list_studies_request_builder()

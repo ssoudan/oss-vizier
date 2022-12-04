@@ -44,7 +44,7 @@ async fn main() {
 
     let owner = "owner".to_string();
 
-    let mut client = VizierClient::new_with_service(owner, service);
+    let mut client = VizierClient::new(owner, service);
 
     let study_spec =
         StudySpecBuilder::new("ALGORITHM_UNSPECIFIED".to_string(), ObservationNoise::Low)
