@@ -31,19 +31,19 @@ name = "e2e"
 path = "examples/e2e.rs"
 
 [dev-dependencies]
-tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.22.0", features = ["macros", "rt-multi-thread"] }
 
 [lib]
 doctest = false
 
 [dependencies]
 tonic = { version = "0.8", features = [] }
-prost = "0.11.0"
-prost-types = "0.11.1"
-tokio = "1.21.2"
+prost = "0.11.3"
+prost-types = "0.11.2"
+tokio = "1.22.0"
 thiserror = "1.0.37"
-regex = "1.6.0"
+regex = "1.7.0"
 
 [build-dependencies]
 tonic-build = { version = "0.8", features = ["prost"] }
-prost-build = { version = "0.11.1" }
+prost-build = { version = "0.11.3" }
