@@ -1,0 +1,49 @@
+[package]
+name = "oss-vizier"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["Sebastien Soudan <sebastien.soudan@gmail.com>"]
+exclude = [
+    "/.github/*",
+    "/.cargo/*",
+    "/.gitignore",
+]
+description = """
+An (unofficial) async client library for OSS Vizier.
+"""
+homepage = "https://github.com/ssoudan/oss-vizier"
+repository = "https://github.com/ssoudan/oss-vizier"
+documentation = "https://docs.rs/oss-vizier"
+readme = "README.md"
+keywords = ["vizier", "optimization", "hyperparameter"]
+categories = ["algorithms", "science"]
+
+[features]
+default = []
+
+[[example]]
+name = "simple"
+path = "examples/simple.rs"
+
+[[example]]
+name = "e2e"
+path = "examples/e2e.rs"
+
+[dev-dependencies]
+tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
+
+[lib]
+doctest = false
+
+[dependencies]
+tonic = { version = "0.8", features = [] }
+prost = "0.11.0"
+prost-types = "0.11.1"
+tokio = "1.21.2"
+thiserror = "1.0.37"
+regex = "1.6.0"
+
+[build-dependencies]
+tonic-build = { version = "0.8", features = ["prost"] }
+prost-build = { version = "0.11.1" }
