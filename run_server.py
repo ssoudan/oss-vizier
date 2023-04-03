@@ -12,8 +12,9 @@ import attr
 import grpc
 
 from vizier.service import datastore
+from vizier.service import constants
 from vizier.service import stubs_util
-from vizier.service import vizier_server
+from vizier.service import vizier_service
 from vizier.service import vizier_service_pb2_grpc
 
 
@@ -25,11 +26,11 @@ class VizierService:
     """
     _host: str = attr.field(init=True, default='localhost')
     _database_url: str = attr.field(
-        init=True, default=vizier_server.SQL_MEMORY_URL, kw_only=True)
+        init=True, default=constants.SQL_MEMORY_URL, kw_only=True)
     _early_stop_recycle_period: datetime.timedelta = attr.field(
         init=False, default=datetime.timedelta(seconds=0.1))
     _port: int = attr.field(init=True, default=8080)
-    _servicer: vizier_server.VizierService = attr.field(init=False)
+    _servicer: vizier_service.VizierServicer = attr.field(init=False)
     _server: grpc.Server = attr.field(init=False)
     stub: vizier_service_pb2_grpc.VizierServiceStub = attr.field(init=False)
 
@@ -43,13 +44,14 @@ class VizierService:
 
     def __attrs_post_init__(self):
         # Setup Vizier server.
-        self._servicer = vizier_server.VizierService(
+        self._servicer = vizier_service.VizierServicer(
             database_url=self._database_url,
             early_stop_recycle_period=self._early_stop_recycle_period)
         self._server = grpc.server(futures.ThreadPoolExecutor(max_workers=30))
         vizier_service_pb2_grpc.add_VizierServiceServicer_to_server(
             self._servicer, self._server)
-        self._server.add_secure_port(self.endpoint, grpc.local_server_credentials())
+        self._server.add_secure_port(
+            self.endpoint, grpc.local_server_credentials())
         self._server.start()
         self.stub = stubs_util.create_vizier_server_stub(self.endpoint)
 
@@ -84,6 +86,7 @@ def main(argv: Sequence[str]) -> None:
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         del service
+
 
 if __name__ == '__main__':
     app.run(main)
