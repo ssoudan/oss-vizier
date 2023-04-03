@@ -350,7 +350,12 @@ mod trials {
         let study_name = "it_can_get_a_trial".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -408,7 +413,12 @@ mod trials {
         let study_name = "it_suggests_trials_raw".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -439,7 +449,12 @@ mod trials {
         let study_name = "it_suggests_trials".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -459,7 +474,12 @@ mod trials {
         let study_name = "it_lists_trials".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -511,7 +531,12 @@ mod trials {
         let study_name = "it_can_add_trial_measurement".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -671,7 +696,12 @@ mod trials {
         let study_name = "it_lists_optimal_trials".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -702,8 +732,18 @@ mod studies {
         let mut client = test_client().await;
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), "it_lists_studies_1".to_string()).await;
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), "it_lists_studies_2".to_string()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            "it_lists_studies_1".to_string(),
+        )
+        .await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            "it_lists_studies_2".to_string(),
+        )
+        .await;
 
         // list studies
         let request = client
@@ -806,7 +846,12 @@ mod studies {
         let study_name = "it_can_get_a_study".to_string();
 
         // create a study
-        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
+        create_dummy_study(
+            &mut client,
+            "ALGORITHM_UNSPECIFIED".to_string(),
+            study_name.clone(),
+        )
+        .await;
 
         let study_name = client.study_name(study_name);
 
@@ -863,41 +908,44 @@ mod common {
         VizierClient::new(owner, service)
     }
 
-    pub(crate) async fn create_dummy_study(client: &mut VizierClient<Channel>, algorithm: String, study_name: String) {
-        let study_spec =
-            StudySpecBuilder::new(algorithm, ObservationNoise::Low)
-                .with_metric_specs(vec![MetricSpec {
-                    metric_id: "m1".to_string(),
-                    goal: GoalType::Maximize as i32,
-                    safety_config: None,
-                }])
-                .with_parameters(vec![
-                    ParameterSpec {
-                        parameter_id: "a".to_string(),
-                        scale_type: ScaleType::Unspecified as i32,
-                        conditional_parameter_specs: vec![],
-                        parameter_value_spec: Some(ParameterValueSpec::DoubleValueSpec(
-                            DoubleValueSpec {
-                                min_value: 0.0,
-                                max_value: 12.0,
-                                default_value: Some(4.0),
-                            },
-                        )),
-                    },
-                    ParameterSpec {
-                        parameter_id: "b".to_string(),
-                        scale_type: ScaleType::Unspecified as i32,
-                        conditional_parameter_specs: vec![],
-                        parameter_value_spec: Some(ParameterValueSpec::IntegerValueSpec(
-                            IntegerValueSpec {
-                                min_value: 4,
-                                max_value: 10,
-                                default_value: Some(7),
-                            },
-                        )),
-                    },
-                ])
-                .build();
+    pub(crate) async fn create_dummy_study(
+        client: &mut VizierClient<Channel>,
+        algorithm: String,
+        study_name: String,
+    ) {
+        let study_spec = StudySpecBuilder::new(algorithm, ObservationNoise::Low)
+            .with_metric_specs(vec![MetricSpec {
+                metric_id: "m1".to_string(),
+                goal: GoalType::Maximize as i32,
+                safety_config: None,
+            }])
+            .with_parameters(vec![
+                ParameterSpec {
+                    parameter_id: "a".to_string(),
+                    scale_type: ScaleType::Unspecified as i32,
+                    conditional_parameter_specs: vec![],
+                    parameter_value_spec: Some(ParameterValueSpec::DoubleValueSpec(
+                        DoubleValueSpec {
+                            min_value: 0.0,
+                            max_value: 12.0,
+                            default_value: Some(4.0),
+                        },
+                    )),
+                },
+                ParameterSpec {
+                    parameter_id: "b".to_string(),
+                    scale_type: ScaleType::Unspecified as i32,
+                    conditional_parameter_specs: vec![],
+                    parameter_value_spec: Some(ParameterValueSpec::IntegerValueSpec(
+                        IntegerValueSpec {
+                            min_value: 4,
+                            max_value: 10,
+                            default_value: Some(7),
+                        },
+                    )),
+                },
+            ])
+            .build();
 
         let request = client
             .mk_study_request_builder()
