@@ -350,7 +350,7 @@ mod trials {
         let study_name = "it_can_get_a_trial".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -408,7 +408,7 @@ mod trials {
         let study_name = "it_suggests_trials_raw".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -439,7 +439,7 @@ mod trials {
         let study_name = "it_suggests_trials".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -459,7 +459,7 @@ mod trials {
         let study_name = "it_lists_trials".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -511,7 +511,7 @@ mod trials {
         let study_name = "it_can_add_trial_measurement".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -596,7 +596,7 @@ mod trials {
         let study_name = "it_can_check_trial_early_stopping_state".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "RANDOM_SEARCH".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -671,7 +671,7 @@ mod trials {
         let study_name = "it_lists_optimal_trials".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -702,8 +702,8 @@ mod studies {
         let mut client = test_client().await;
 
         // create a study
-        create_dummy_study(&mut client, "it_lists_studies_1".to_string()).await;
-        create_dummy_study(&mut client, "it_lists_studies_2".to_string()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), "it_lists_studies_1".to_string()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), "it_lists_studies_2".to_string()).await;
 
         // list studies
         let request = client
@@ -806,7 +806,7 @@ mod studies {
         let study_name = "it_can_get_a_study".to_string();
 
         // create a study
-        create_dummy_study(&mut client, study_name.clone()).await;
+        create_dummy_study(&mut client, "ALGORITHM_UNSPECIFIED".to_string(), study_name.clone()).await;
 
         let study_name = client.study_name(study_name);
 
@@ -863,9 +863,9 @@ mod common {
         VizierClient::new(owner, service)
     }
 
-    pub(crate) async fn create_dummy_study(client: &mut VizierClient<Channel>, study_name: String) {
+    pub(crate) async fn create_dummy_study(client: &mut VizierClient<Channel>, algorithm: String, study_name: String) {
         let study_spec =
-            StudySpecBuilder::new("ALGORITHM_UNSPECIFIED".to_string(), ObservationNoise::Low)
+            StudySpecBuilder::new(algorithm, ObservationNoise::Low)
                 .with_metric_specs(vec![MetricSpec {
                     metric_id: "m1".to_string(),
                     goal: GoalType::Maximize as i32,
