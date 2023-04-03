@@ -14,7 +14,7 @@
 
 //! Unofficial OSS Vizier Client API.
 //!
-//! See https://github.com/google/vizier for OSS Vizier backend.
+//! See <https://github.com/google/vizier> for OSS Vizier backend.
 //!
 //! ```no_run
 //! let endpoint = std::env::var("ENDPOINT").unwrap_or_else(|_| "http://localhost:8080".to_string());
