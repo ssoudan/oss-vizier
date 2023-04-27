@@ -17,7 +17,7 @@
 //! See <https://github.com/google/vizier> for OSS Vizier backend.
 //!
 //! ```no_run
-//! let endpoint = std::env::var("ENDPOINT").unwrap_or_else(|_| "http://localhost:8080".to_string());
+//! let endpoint = std::env::var("ENDPOINT").unwrap_or_else(|_| "http://localhost:28080".to_string());
 //!
 //! let service = VizierServiceClient::connect(endpoint).await.unwrap();
 //!
@@ -899,7 +899,7 @@ mod common {
 
     pub(crate) async fn test_client() -> VizierClient<Channel> {
         let endpoint =
-            std::env::var("ENDPOINT").unwrap_or_else(|_| "http://localhost:8080".to_string());
+            std::env::var("ENDPOINT").unwrap_or_else(|_| "http://localhost:28080".to_string());
 
         let service = VizierServiceClient::connect(endpoint).await.unwrap();
 
