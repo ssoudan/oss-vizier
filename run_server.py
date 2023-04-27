@@ -24,12 +24,12 @@ class VizierService:
 
     Both servers have access to the others' literal class instances.
     """
-    _host: str = attr.field(init=True, default='localhost')
+    _host: str = attr.field(init=True, default='0.0.0.0')
     _database_url: str = attr.field(
         init=True, default=constants.SQL_MEMORY_URL, kw_only=True)
     _early_stop_recycle_period: datetime.timedelta = attr.field(
         init=False, default=datetime.timedelta(seconds=0.1))
-    _port: int = attr.field(init=True, default=8080)
+    _port: int = attr.field(init=True, default=28080)
     _servicer: vizier_service.VizierServicer = attr.field(init=False)
     _server: grpc.Server = attr.field(init=False)
     stub: vizier_service_pb2_grpc.VizierServiceStub = attr.field(init=False)
@@ -50,8 +50,9 @@ class VizierService:
         self._server = grpc.server(futures.ThreadPoolExecutor(max_workers=30))
         vizier_service_pb2_grpc.add_VizierServiceServicer_to_server(
             self._servicer, self._server)
-        self._server.add_secure_port(
-            self.endpoint, grpc.local_server_credentials())
+        self._server.add_insecure_port(self.endpoint)
+        # self._server.add_secure_port(
+        # self.endpoint, grpc.local_server_credentials())
         self._server.start()
         self.stub = stubs_util.create_vizier_server_stub(self.endpoint)
 
@@ -60,12 +61,12 @@ class VizierService:
 
 
 flags.DEFINE_string(
-    'host', 'localhost',
+    'host', '0.0.0.0',
     'Host location for the server. For distributed cases, use the IP address.')
 
 flags.DEFINE_integer(
-    'port', 8080,
-    'Port to listen to. 8080 by default.'
+    'port', 28080,
+    'Port to listen to. 28080 by default.'
 )
 
 FLAGS = flags.FLAGS

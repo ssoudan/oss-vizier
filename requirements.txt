@@ -1,0 +1,1 @@
+google-vizier[jax]==0.1.4

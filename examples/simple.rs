@@ -19,7 +19,7 @@ use oss_vizier::VizierClient;
 
 #[tokio::main]
 async fn main() {
-    let endpoint = "http://localhost:8080/";
+    let endpoint = "http://localhost:28080/";
 
     let service = { VizierServiceClient::connect(endpoint) }.await.unwrap();
 
@@ -32,7 +32,15 @@ async fn main() {
         .with_page_size(2)
         .build();
 
-    let studies = client.service.list_studies(request).await.unwrap();
+    let studies = client.service.list_studies(request).await;
+
+    if studies.is_err() {
+        println!("Error: {}", studies.err().unwrap().message());
+        return;
+    }
+
+    let studies = studies.unwrap();
+
     let study_list = &studies.get_ref().studies;
     for t in study_list {
         println!("- {}", &t.display_name);

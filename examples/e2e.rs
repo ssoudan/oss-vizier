@@ -38,7 +38,9 @@ fn f(x: f64, y: f64) -> f64 {
 
 #[tokio::main]
 async fn main() {
-    let endpoint = "http://localhost:8080/";
+    let endpoint = "http://localhost:28080/";
+
+    println!("Connecting to {}", endpoint);
 
     let service = VizierServiceClient::connect(endpoint).await.unwrap();
 

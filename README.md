@@ -23,7 +23,18 @@ python run_server.py &
 cargo run --example e2e
 ```
 
+Or: 
 
+```
+docker build -t oss-vizier .
+docker run -ti --rm -p 28080:28080 oss-vizier
+```
 
-See [`examples`].
+and:
+
+```
+cargo run --example e2e
+```
+
+For more, see [`examples`].
 
