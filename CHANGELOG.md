@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v0.4.0 (2023-04-27)
 
+<csr-id-0e2536ffb35123af9be264027f21b430f68ccc9d/>
+<csr-id-2894e5810681167b9a5975fde6a0d9f8647b0fa7/>
+
 ### Chore
 
  - <csr-id-0e2536ffb35123af9be264027f21b430f68ccc9d/> exclude non essential files from release
@@ -20,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <csr-read-only-do-not-edit/>
 
- - 4 commits contributed to the release over the course of 23 calendar days.
+ - 5 commits contributed to the release over the course of 23 calendar days.
  - 23 days passed between releases.
  - 3 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
@@ -32,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Release oss-vizier v0.4.0 ([`806e0e4`](https://github.com/ssoudan/oss-vizier/commit/806e0e44de39b80e848128ada809993b4e9906b5))
     - Exclude non essential files from release ([`0e2536f`](https://github.com/ssoudan/oss-vizier/commit/0e2536ffb35123af9be264027f21b430f68ccc9d))
     - Updated port for the tests ([`2894e58`](https://github.com/ssoudan/oss-vizier/commit/2894e5810681167b9a5975fde6a0d9f8647b0fa7))
     - Dockerfile to run the server ([`60752cb`](https://github.com/ssoudan/oss-vizier/commit/60752cb400dda3dbb0b4fcd770f1f2328f5f097f))
