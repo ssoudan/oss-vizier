@@ -8,6 +8,11 @@ exclude = [
     "/.github/*",
     "/.cargo/*",
     "/.gitignore",
+    "/.dockerignore",
+    "/Dockerfile",
+    "/environment.yml",
+    "/requirements.txt",
+    "/run_server.py",
 ]
 description = """
 An (unofficial) async client library for OSS Vizier.
