@@ -45,11 +45,11 @@ use tokio::time::sleep;
 use tonic::codegen::http::uri::InvalidUri;
 use tonic::codegen::{Body, StdError};
 
-use crate::google::longrunning::{operation, GetOperationRequest, Operation};
+use crate::google::longrunning::{GetOperationRequest, Operation, operation};
 use crate::model::{study, trial};
 use crate::study::StudyName;
 use crate::trial::complete::FinalMeasurementOrReason;
-use crate::trial::{early_stopping, optimal, stop, TrialName};
+use crate::trial::{TrialName, early_stopping, optimal, stop};
 use crate::vizier::vizier_service_client::VizierServiceClient;
 use crate::vizier::{
     AddTrialMeasurementRequest, CheckTrialEarlyStoppingStateRequest, CompleteTrialRequest,
@@ -67,6 +67,7 @@ pub mod google {
     /// google.apis protos.
     pub mod api {
         #![allow(clippy::derive_partial_eq_without_eq)]
+        #![allow(clippy::doc_overindented_list_items)]
         tonic::include_proto!("google.api");
     }
 
@@ -84,8 +85,8 @@ pub mod google {
 }
 
 /// vizier oss proto
-#[allow(missing_docs)]
 pub mod vizier {
+    #![allow(missing_docs)]
     #![allow(clippy::derive_partial_eq_without_eq)]
     tonic::include_proto!("vizier");
 }
@@ -117,7 +118,7 @@ pub enum Error {
 
 impl<T> VizierClient<T>
 where
-    T: tonic::client::GrpcService<tonic::body::BoxBody>,
+    T: tonic::client::GrpcService<tonic::body::Body>,
     T::Error: Into<StdError>,
     T::ResponseBody: Body<Data = Bytes> + Send + 'static,
     <T::ResponseBody as Body>::Error: Into<StdError> + Send,
@@ -338,10 +339,10 @@ mod trials {
     use tonic::Code;
 
     use super::common::{create_dummy_study, test_client};
+    use crate::SuggestTrialsResponse;
     use crate::trial::complete::FinalMeasurementOrReason;
     use crate::util::decode_operation_result_as;
-    use crate::vizier::{measurement, Measurement};
-    use crate::SuggestTrialsResponse;
+    use crate::vizier::{Measurement, measurement};
 
     #[tokio::test]
     async fn it_can_get_a_trial() {
@@ -888,6 +889,7 @@ mod common {
 
     use tonic::transport::Channel;
 
+    use crate::VizierClient;
     use crate::study::spec::StudySpecBuilder;
     use crate::vizier::study_spec::metric_spec::GoalType;
     use crate::vizier::study_spec::parameter_spec::{
@@ -895,7 +897,6 @@ mod common {
     };
     use crate::vizier::study_spec::{MetricSpec, ObservationNoise, ParameterSpec};
     use crate::vizier::vizier_service_client::VizierServiceClient;
-    use crate::VizierClient;
 
     pub(crate) async fn test_client() -> VizierClient<Channel> {
         let endpoint =

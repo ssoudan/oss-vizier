@@ -29,14 +29,15 @@ message Study {
 
   // Describes the Study state.
   enum State {
-    // The study state is unspecified.
+    // The study state is unspecified by default. It is treated as ACTIVE.
     STATE_UNSPECIFIED = 0;
-    // The study is active.
+    // The study is active and its components can be modified. Every study
+    // created by the servicer starts as ACTIVE.
     ACTIVE = 1;
-    // The study is stopped due to an internal error.
+    // The study is stopped due to an internal error. Study is now immutable.
     INACTIVE = 2;
     // The study is done when the service exhausts the parameter search space
-    // or max_trial_count is reached.
+    // or max_trial_count is reached. Study is now immutable.
     COMPLETED = 3;
   }
   // The detailed state of a Study.
@@ -138,7 +139,10 @@ message Trial {
   // Arbitrary metadata associated with the Trial.  This is not processed by
   // the Vizier server, but is readable/writeable by Pythia policies and user
   // code.
-  // FYI, the "" namespace may be read and written by the user.
+  // FYI, each algorithm has one or more namespaces; users may read any
+  //   namespace.   Users may write arbitrary data to the empty ("") namespace,
+  //   and should only write to other namespaces when the algorithm's
+  //   documentation specifically allows.
   // NOTE: Each KeyValue item is limited to 10 megabytes.
   // NOTE: Keys should be unique within their namespaces.
   repeated KeyValue metadata = 11;
@@ -347,12 +351,8 @@ message StudySpec {
   // See pyvizier.Algorithm for a list of native Vizier algorithms.
   string algorithm = 3;
 
-  // The Pythia endpoint, for custom algorithms, or a Pythia service running
-  // as a separate binary.
-  optional string pythia_endpoint = 8;
-
   // Use the deault early stopping policy.
-  reserved 4, 5;
+  reserved 4, 5, 8;
   message DefaultEarlyStoppingSpec {}
 
   oneof automated_stopping_spec {

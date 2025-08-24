@@ -16,10 +16,11 @@
 use std::collections::HashMap;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use oss_vizier::model::study::spec::StudySpecBuilder;
+use oss_vizier::VizierClient;
 use oss_vizier::model::study::ToStudyName;
-use oss_vizier::model::trial::complete::FinalMeasurementOrReason;
+use oss_vizier::model::study::spec::StudySpecBuilder;
 use oss_vizier::model::trial::ToTrialName;
+use oss_vizier::model::trial::complete::FinalMeasurementOrReason;
 use oss_vizier::prost_types::value::Kind;
 use oss_vizier::vizier::study_spec::metric_spec::GoalType;
 use oss_vizier::vizier::study_spec::parameter_spec::{
@@ -28,8 +29,7 @@ use oss_vizier::vizier::study_spec::parameter_spec::{
 use oss_vizier::vizier::study_spec::{MetricSpec, ObservationNoise, ParameterSpec};
 use oss_vizier::vizier::trial::State;
 use oss_vizier::vizier::vizier_service_client::VizierServiceClient;
-use oss_vizier::vizier::{measurement, Measurement, Trial};
-use oss_vizier::VizierClient;
+use oss_vizier::vizier::{Measurement, Trial, measurement};
 
 /// Hammelblau's function
 fn f(x: f64, y: f64) -> f64 {
@@ -149,7 +149,7 @@ async fn main() {
 
                     let trial = client.service.complete_trial(request).await.unwrap();
                     let trial = trial.get_ref();
-                    dbg!(State::from_i32(trial.state).unwrap());
+                    dbg!(State::try_from(trial.state).unwrap());
                 }
             }
 

@@ -90,7 +90,6 @@ impl StudySpecBuilder {
             observation_noise: self.observation_noise as i32,
             automated_stopping_spec: self.automated_stopping_spec,
             metadata: self.metadata,
-            pythia_endpoint: self.pythia_endpoint,
         }
     }
 }
