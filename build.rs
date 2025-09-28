@@ -15,7 +15,7 @@
 //! Builds GRPC client from the proto files.
 
 fn main() -> std::io::Result<()> {
-    tonic_build::configure()
+    tonic_prost_build::configure()
         .protoc_arg("--experimental_allow_proto3_optional")
         .build_server(false)
         .compile_protos(
